@@ -1,0 +1,65 @@
+i) Pseudo-Distributed Mode:
+
+$ start-all.sh
+
+$ jps
+
+# $HADOOP_HOME (as defined in .bashrc file)
+$ javac -classpath $HADOOP_HOME/share/hadoop/common/hadoop-common-2.7.7.jar:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.7.7.jar:$HADOOP_HOME/share/hadoop/common/lib/commons-cli-1.2.jar -d ./ *.java
+
+#Created  a folder classes and copied all .class files into classes
+
+$ jar -cvf relativefrequency.jar -C classes
+
+$ hdfs dfs -mkdir /user 
+    
+$ hdfs dfs -mkdir /user/input
+
+$ hdfs dfs -put 100KWikiText.txt /user/input/
+
+$ hadoop jar relativefrequency.jar WordFrequencies /user/input/ output
+
+$ hdfs dfs -cat output/* > top100.txt
+
+
+ii) Fully Distributed Mode:
+
+#Configuring VM to fully distributed
+# 2 VM's (1 namenode and 1 datanode)
+   Namenode specific configurations:
+   /etc/hosts -- add namenode/datanode public_dns_names and hostnames
+   $HADOOP_CONF_DIR/hdfs-site.xml -- set replication factor to 1
+   sudo mkdir -p $HADOOP_HOME/hadoop_data/hdfs/namenode
+   sudo touch $HADOOP_CONF_DIR/masters -- add Namenode hostname
+   $HADOOP_CONF_DIR/slaves -- add datanode hostname
+   sudo chown -R ubuntu $HADOOP_HOME
+
+   Datanode specific configurations:
+   $HADOOP_CONF_DIR/hdfs-site.xml -- set replication factor to 1
+   sudo mkdir -p $HADOOP_HOME/hadoop_data/hdfs/datanode
+   sudo chown -R ubuntu $HADOOP_HOME
+
+$ start-all.sh
+
+$ mr-jobhistory-daemon.sh start historyserver
+
+$ jps
+
+# $HADOOP_HOME (as defined in .bashrc file)
+$ javac -classpath $HADOOP_HOME/share/hadoop/common/hadoop-common-2.7.7.jar:$HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-client-core-2.7.7.jar:$HADOOP_HOME/share/hadoop/common/lib/commons-cli-1.2.jar -d ./ *.java
+
+#Created  a folder classes and copied all .class files into classes
+
+$ jar -cvf relativefrequency.jar -C classes
+
+$ hdfs dfs -mkdir /user 
+    
+$ hdfs dfs -mkdir /user/input
+
+$ hdfs dfs -put 100KWikiText.txt /user/input/
+
+$ hadoop jar relativefrequency.jar WordFrequencies /user/input/ output
+
+$ hdfs dfs -cat output/* > top100.txt
+
+

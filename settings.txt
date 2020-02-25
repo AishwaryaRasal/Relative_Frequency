@@ -1,0 +1,43 @@
+i) Input/Output format for mappers/reducers:
+
+Hadoop Task 1. Mapper1:
+
+   Input: key ~ LongWritable, value ~ Text
+   Output: key ~ AdjacentWord, value ~ IntWritable
+
+Hadoop Task 2. Reducer1:
+
+   Input: key ~ AdjacentWord, value ~ IntWritable
+   Output: key ~ AdjacentWord, value ~ DoubleWritalbe
+
+Hadoop Task 3. Mapper2:
+
+   Input: key ~ Object, value ~ Text
+   Output: key ~ DoubleWritable, value ~ AdjacentWord
+
+Hadoop Task 4. Reducer2:
+
+   Input: key ~ DoubleWritable, value ~ AdjacentWord
+   Output: key ~ AdjacentWord, value ~ DoubleWritable   
+
+
+ii) Hadoop cluster settings:
+
+#For both Fully Distributed and Pseudo-Distributed modes
+1. Number of VM instances : 2 (1 Namenode + 1 Datanode)  #For Fully Distributed Mode
+2. VM type: Ubuntu, t2.medium, 4GB RAM
+3. Number of Input splits (map tasks) for Job1 : 1
+4. Number of reduce tasks for Job1 : 3
+5. Number of Input splits (map tasks) for Job2 : 3 
+6. Number of reduce tasks for Job2 : 1
+
+
+iii) Running Time:
+
+a) Pseudo-Distributed Mode:
+
+  Running time: 10 minutes, 25 seconds
+
+b) Fully Distributed Mode:
+
+  Running time: 10 minutes, 25 seconds
